@@ -1,0 +1,29 @@
+[project]
+name = "ip_analytics"
+requires-python = ">=3.9,<3.13"
+version = "0.1.0"
+dependencies = [
+    "dagster",
+]
+
+[project.entry-points]
+"dagster_dg.plugin" = { ip_analytics = "ip_analytics.lib"}
+
+[dependency-groups]
+dev = [
+    "dagster-webserver",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.dg]
+directory_type = "project"
+
+[tool.dg.project]
+root_module = "ip_analytics"
+
+
+[tool.dg.project.python_environment]
+active = true

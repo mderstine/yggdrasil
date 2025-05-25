@@ -1,3 +1,6 @@
 directory_type = "workspace"
 
 [workspace]
+
+[[workspace.projects]]
+path = "ip_analytics"
