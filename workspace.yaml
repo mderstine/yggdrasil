@@ -1,0 +1,5 @@
+load_from:
+  - grpc_server:
+      host: ip_analytics
+      port: 4000
+      location_name: ip_analytics

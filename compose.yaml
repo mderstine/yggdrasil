@@ -1,0 +1,98 @@
+services:
+  dagster_db:
+    container_name: dagster_db
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - dagster_network
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+  
+  ip_analytics:
+    build:
+      context: ./projects/ip_analytics
+      dockerfile: ./Dockerfile
+    container_name: ip_analytics
+    image: ip_analytics
+    restart: always
+    environment:
+      DAGSTER_POSTGRES_USER: ${POSTGRES_USER}
+      DAGSTER_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DAGSTER_POSTGRES_DB: ${POSTGRES_DB}
+      DAGSTER_CURRENT_IMAGE: 'ip_analytics'
+    networks:
+      - dagster_network
+    depends_on:
+      dagster_db:
+        condition: service_healthy
+
+  dagster_webserver:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    entrypoint:
+      - dagster-webserver
+      - -h
+      - '0.0.0.0'
+      - -p
+      - '3000'
+      - -w
+      - workspace.yaml
+    container_name: dagster_webserver
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    environment:
+      DAGSTER_POSTGRES_USER: ${POSTGRES_USER}
+      DAGSTER_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DAGSTER_POSTGRES_DB: ${POSTGRES_DB}
+    volumes: # Make docker client accessible so we can terminate containers from the webserver
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dagster_network
+    depends_on:
+      dagster_db:
+        condition: service_healthy
+      ip_analytics:
+        condition: service_started
+
+  # This service runs the dagster-daemon process, which is responsible for taking runs
+  # off of the queue and launching them, as well as creating runs from schedules or sensors.
+  dagster_daemon:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    entrypoint:
+      - dagster-daemon
+      - run
+    container_name: dagster_daemon
+    restart: on-failure
+    environment:
+      DAGSTER_POSTGRES_USER: ${POSTGRES_USER}
+      DAGSTER_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DAGSTER_POSTGRES_DB: ${POSTGRES_DB}
+    volumes: # Make docker client accessible so we can launch containers using host docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/io_manager_storage:/tmp/io_manager_storage
+    networks:
+      - dagster_network
+    depends_on:
+      dagster_db:
+        condition: service_healthy
+      ip_analytics:
+        condition: service_started
+
+networks:
+  dagster_network:
+    driver: bridge
+    name: dagster_network
