@@ -3,7 +3,19 @@ import httpx
 import polars as pl
 
 
-@dg.asset
+@dg.asset(
+        name="SOFR",
+        key_prefix=["MarketData"],
+        group_name="MarketData",
+        description="SOFR (Secured Overnight Financing Rate) data from FRED",
+        kinds=["polars"],
+        # io_manager_key="polars_io_manager",
+        # required_resource_keys={"polars_io_manager"},
+        # metadata={
+        #     "source": "FRED",
+        #     "url": "https://fred.stlouisfed.org/series/SOFR"
+        # }
+)
 def sofr(context: dg.AssetExecutionContext) -> dg.MaterializeResult:
 
     fred_api_key = "41d1cc1b88629e3431c4d2e39bffc925"

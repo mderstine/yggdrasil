@@ -24,4 +24,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD dagster api grpc-health-check
 
 # CMD allows this to be overridden from run launchers or executors
-CMD ["dagster", "code-server", "start", "-h", "0.0.0.0", "-p", "4000", "-m", "ip_analytics"]
+CMD ["uv", "run", "dagster", "code-server", "start", "-h", "0.0.0.0", "-p", "4000", "-m", "ip_analytics"]
