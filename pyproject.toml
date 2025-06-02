@@ -1,0 +1,10 @@
+[project]
+name = "yggdrasil-basic"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dagster>=1.10.18",
+    "dagster-dg>=0.2.2",
+]
