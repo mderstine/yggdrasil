@@ -1,0 +1,209 @@
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+#0 building with "default" instance using docker driver
+
+#1 [ip_analytics internal] load build definition from Dockerfile
+#1 transferring dockerfile: 744B done
+#1 DONE 0.0s
+
+#2 [ip_analytics internal] load metadata for ghcr.io/astral-sh/uv:latest
+#2 DONE 0.0s
+
+#3 [ip_analytics internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#3 DONE 0.3s
+
+#4 [ip_analytics internal] load .dockerignore
+#4 transferring context: 2B 0.0s done
+#4 DONE 0.0s
+
+#5 [ip_analytics stage-0 1/9] FROM docker.io/library/python:3.12-slim-bookworm@sha256:0175d8ff0ad1dc8ceca4bcf311c3e47d08807a940959fa1cdbcefa87841883a1
+#5 DONE 0.0s
+
+#6 [ip_analytics] FROM ghcr.io/astral-sh/uv:latest
+#6 DONE 0.0s
+
+#7 [ip_analytics internal] load build context
+#7 transferring context: 826B done
+#7 DONE 0.0s
+
+#8 [ip_analytics stage-0 5/9] WORKDIR /opt/dagster/app
+#8 CACHED
+
+#9 [ip_analytics stage-0 7/9] COPY uv.lock .
+#9 CACHED
+
+#10 [ip_analytics stage-0 8/9] COPY src/ ./src/
+#10 CACHED
+
+#11 [ip_analytics stage-0 2/9] RUN useradd -m -U dagster
+#11 CACHED
+
+#12 [ip_analytics stage-0 3/9] COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+#12 CACHED
+
+#13 [ip_analytics stage-0 4/9] RUN mkdir -p /opt/dagster/dagster_home/ &&     chown -R dagster:dagster /opt/dagster/dagster_home/
+#13 CACHED
+
+#14 [ip_analytics stage-0 6/9] COPY pyproject.toml .
+#14 CACHED
+
+#15 [ip_analytics stage-0 9/9] RUN uv sync --frozen --no-cache
+#15 CACHED
+
+#16 [ip_analytics] exporting to image
+#16 exporting layers done
+#16 writing image sha256:cb8bc0199c6571371714db2048d5121a124c7418401780c91b1e16d435f70fc6 done
+#16 naming to docker.io/library/ip_analytics done
+#16 DONE 0.0s
+
+#17 [ip_analytics] resolving provenance for metadata file
+#17 DONE 0.0s
+
+#18 [dagster_daemon internal] load build definition from Dockerfile
+#18 transferring dockerfile: 756B done
+#18 DONE 0.0s
+
+#19 [dagster_webserver internal] load build definition from Dockerfile
+#19 transferring dockerfile: 756B done
+#19 DONE 0.0s
+
+#2 [dagster_webserver internal] load metadata for ghcr.io/astral-sh/uv:latest
+#2 DONE 0.0s
+
+#3 [dagster_webserver internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#3 DONE 0.4s
+
+#20 [dagster_webserver internal] load .dockerignore
+#20 transferring context: 45B done
+#20 DONE 0.0s
+
+#21 [dagster_daemon internal] load .dockerignore
+#21 transferring context: 45B 0.0s done
+#21 DONE 0.0s
+
+#6 [dagster_daemon] FROM ghcr.io/astral-sh/uv:latest
+#6 DONE 0.0s
+
+#5 [dagster_daemon stage-0 1/9] FROM docker.io/library/python:3.12-slim-bookworm@sha256:0175d8ff0ad1dc8ceca4bcf311c3e47d08807a940959fa1cdbcefa87841883a1
+#5 DONE 0.0s
+
+#22 [dagster_webserver internal] load build context
+#22 transferring context: 840.23kB 0.9s done
+#22 DONE 0.9s
+
+#23 [dagster_daemon internal] load build context
+#23 transferring context: 840.23kB 0.9s done
+#23 DONE 0.9s
+
+#24 [dagster_webserver stage-0 6/9] WORKDIR /opt/dagster/dagster_home/
+#24 CACHED
+
+#13 [dagster_webserver stage-0 4/9] RUN mkdir -p /opt/dagster/dagster_home/ &&     chown -R dagster:dagster /opt/dagster/dagster_home/
+#13 CACHED
+
+#12 [dagster_webserver stage-0 3/9] COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+#12 CACHED
+
+#25 [dagster_webserver stage-0 7/9] RUN uv sync --frozen --no-cache
+#25 CACHED
+
+#26 [dagster_webserver stage-0 8/9] COPY dagster.yaml workspace.yaml /opt/dagster/dagster_home//
+#26 CACHED
+
+#11 [dagster_webserver stage-0 2/9] RUN useradd -m -U dagster
+#11 CACHED
+
+#27 [dagster_webserver stage-0 5/9] COPY pyproject.toml uv.lock /opt/dagster/dagster_home//
+#27 CACHED
+
+#28 [dagster_daemon stage-0 9/9] COPY projects/ /opt/dagster/dagster_home//src/
+#28 CACHED
+
+#29 [dagster_webserver] exporting to image
+#29 exporting layers done
+#29 writing image sha256:5f6968b4f5f6ac361e24ffa2ee790baa87b9f94953e2688e2af55b6792273934 done
+#29 naming to docker.io/library/yggdrasil-dagster_webserver done
+#29 DONE 0.0s
+
+#30 [dagster_daemon] exporting to image
+#30 exporting layers done
+#30 writing image sha256:787c5baee752aa6d42c743dab2a13cb0b7301e9d72b478a18acddac5089f582c done
+#30 naming to docker.io/library/yggdrasil-dagster_daemon done
+#30 DONE 0.0s
+
+#31 [dagster_webserver] resolving provenance for metadata file
+#31 DONE 0.0s
+
+#32 [dagster_daemon] resolving provenance for metadata file
+#32 DONE 0.0s
+Attaching to dagster_daemon, dagster_db, dagster_webserver, ip_analytics
+dagster_db         | The files belonging to this database system will be owned by user "postgres".
+dagster_db         | This user must also own the server process.
+dagster_db         | 
+dagster_db         | The database cluster will be initialized with locale "en_US.utf8".
+dagster_db         | The default database encoding has accordingly been set to "UTF8".
+dagster_db         | The default text search configuration will be set to "english".
+dagster_db         | 
+dagster_db         | Data page checksums are disabled.
+dagster_db         | 
+dagster_db         | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+dagster_db         | creating subdirectories ... ok
+dagster_db         | selecting dynamic shared memory implementation ... posix
+dagster_db         | selecting default max_connections ... 100
+dagster_db         | selecting default shared_buffers ... 128MB
+dagster_db         | selecting default time zone ... Etc/UTC
+dagster_db         | creating configuration files ... ok
+dagster_db         | running bootstrap script ... ok
+dagster_db         | performing post-bootstrap initialization ... ok
+dagster_db         | syncing data to disk ... ok
+dagster_db         | 
+dagster_db         | 
+dagster_db         | Success. You can now start the database server using:
+dagster_db         | 
+dagster_db         |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+dagster_db         | 
+dagster_db         | waiting for server to start....2025-06-09 20:50:54.336 UTC [48] LOG:  starting PostgreSQL 15.13 (Debian 15.13-1.pgdg120+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14) 12.2.0, 64-bit
+dagster_db         | 2025-06-09 20:50:54.340 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+dagster_db         | 2025-06-09 20:50:54.357 UTC [51] LOG:  database system was shut down at 2025-06-09 20:50:53 UTC
+dagster_db         | 2025-06-09 20:50:54.375 UTC [48] LOG:  database system is ready to accept connections
+dagster_db         |  done
+dagster_db         | server started
+dagster_db         | 2025-06-09 20:50:54.637 UTC [66] FATAL:  database "dagster" does not exist
+dagster_db         | CREATE DATABASE
+dagster_db         | 
+dagster_db         | 
+dagster_db         | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+dagster_db         | 
+dagster_db         | waiting for server to shut down....2025-06-09 20:50:54.803 UTC [48] LOG:  received fast shutdown request
+dagster_db         | 2025-06-09 20:50:54.806 UTC [48] LOG:  aborting any active transactions
+dagster_db         | 2025-06-09 20:50:54.819 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+dagster_db         | 2025-06-09 20:50:54.819 UTC [49] LOG:  shutting down
+dagster_db         | 2025-06-09 20:50:54.821 UTC [49] LOG:  checkpoint starting: shutdown immediate
+dagster_db         | 2025-06-09 20:50:54.899 UTC [49] LOG:  checkpoint complete: wrote 918 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.032 s, sync=0.039 s, total=0.080 s; sync files=301, longest=0.003 s, average=0.001 s; distance=4222 kB, estimate=4222 kB
+dagster_db         | 2025-06-09 20:50:54.918 UTC [48] LOG:  database system is shut down
+dagster_db         |  done
+dagster_db         | server stopped
+dagster_db         | 
+dagster_db         | PostgreSQL init process complete; ready for start up.
+dagster_db         | 
+ip_analytics       | [32m2025-06-09 20:51:04 +0000[0m - dagster.code_server - [34mINFO[0m - Starting Dagster code proxy server for module ip_analytics on port 4000 in process 10
+ip_analytics       | [32m2025-06-09 20:51:16 +0000[0m - dagster.code_server - [34mINFO[0m - Starting Dagster code server for module ip_analytics in process 23
+ip_analytics       | [32m2025-06-09 20:51:18 +0000[0m - dagster.code_server - [34mERROR[0m - [31mError while importing code[0m
+ip_analytics       | Traceback (most recent call last):
+ip_analytics       |   File "/opt/dagster/app/.venv/lib/python3.12/site-packages/dagster/_grpc/server.py", line 436, in __init__
+ip_analytics       |     self._loaded_repositories: Optional[LoadedRepositories] = LoadedRepositories(
+ip_analytics       |                                                               ^^^^^^^^^^^^^^^^^^^
+ip_analytics       |   File "/opt/dagster/app/.venv/lib/python3.12/site-packages/dagster/_grpc/server.py", line 269, in __init__
+ip_analytics       |     loadable_targets = get_loadable_targets(
+ip_analytics       |                        ^^^^^^^^^^^^^^^^^^^^^
+ip_analytics       |   File "/opt/dagster/app/.venv/lib/python3.12/site-packages/dagster/_grpc/utils.py", line 51, in get_loadable_targets
+ip_analytics       |     else loadable_targets_from_python_module(module_name, working_directory)
+ip_analytics       |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ip_analytics       |   File "/opt/dagster/app/.venv/lib/python3.12/site-packages/dagster/_core/workspace/autodiscovery.py", line 38, in loadable_targets_from_python_module
+ip_analytics       |     return loadable_targets_from_loaded_module(module)
+ip_analytics       |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ip_analytics       |   File "/opt/dagster/app/.venv/lib/python3.12/site-packages/dagster/_core/workspace/autodiscovery.py", line 120, in loadable_targets_from_loaded_module
+ip_analytics       |     raise DagsterInvariantViolationError(
+ip_analytics       | dagster._core.errors.DagsterInvariantViolationError: No Definitions, RepositoryDefinition, Job, Pipeline, Graph, or AssetsDefinition found in "ip_analytics".
+ip_analytics       | [32m2025-06-09 20:51:18 +0000[0m - dagster.code_server - [34mINFO[0m - Started Dagster code server for module ip_analytics in process 23
+ip_analytics       | [32m2025-06-09 20:51:19 +0000[0m - dagster.code_server - [34mINFO[0m - Started Dagster code proxy server for module ip_analytics on port 4000 in process 10
