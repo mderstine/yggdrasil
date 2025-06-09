@@ -17,7 +17,7 @@ WORKDIR $DAGSTER_HOME
 RUN uv sync --frozen --no-cache
 
 # Copy Application Code
-# COPY dagster.yaml $DAGSTER_HOME
+COPY dagster.yaml workspace.yaml $DAGSTER_HOME/
 COPY projects/ $DAGSTER_HOME/src/
 
 USER dagster
